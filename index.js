@@ -56,9 +56,9 @@ define(["require", "exports"], function (require, exports) {
             requestAnimationFrame(this.requestNextFrame);
             $('#header')[0].addEventListener('touchstart', function (e) { e.stopPropagation(); }, false);
             $('#header')[0].addEventListener('touchend', function (e) { e.stopPropagation(); }, false);
-            $('#divMain')[0].addEventListener('touchstart', this.touchStart, false);
+            $('#divMain')[0].addEventListener('touchstart', this.touchStart, { passive: false });
             $('#divMain')[0].addEventListener('touchend', this.touchEnd, false);
-            $('#divMain')[0].addEventListener('touchmove', this.touchMove, false);
+            $('#divMain')[0].addEventListener('touchmove', this.touchMove, { passive: false });
             document.onkeydown = this.keyDown;
             document.onkeyup = this.keyUp;
             window.addEventListener("gamepadconnected", this.initGamePad.bind(this));
@@ -189,11 +189,7 @@ define(["require", "exports"], function (require, exports) {
         };
         MyApp.prototype.touchStart = function (event) {
             var app = window.myApp;
-            //PREVENT DOUBLE TAP ZOOM ON IOS
-            var delta = (new Date().getTime() - app.lastTouch.getTime());
-            if (delta < 500) {
-                event.preventDefault();
-            }
+            event.preventDefault();
             app.lastTouch = new Date();
             app.touchX_Start = event.touches[0].clientX;
             app.touchX_InitialStart = event.touches[0].clientX;

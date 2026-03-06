@@ -69,9 +69,9 @@ export class MyApp {
         $('#header')[0].addEventListener( 'touchstart', function(e){e.stopPropagation();}, false );
         $('#header')[0].addEventListener( 'touchend', function(e){ e.stopPropagation();}, false );
 
-        $('#divMain')[0].addEventListener( 'touchstart', this.touchStart, false );
+        $('#divMain')[0].addEventListener( 'touchstart', this.touchStart, {passive: false} as any );
         $('#divMain')[0].addEventListener( 'touchend', this.touchEnd, false );
-        $('#divMain')[0].addEventListener( 'touchmove', this.touchMove, false );
+        $('#divMain')[0].addEventListener( 'touchmove', this.touchMove, {passive: false} as any );
 
         
 
@@ -284,12 +284,7 @@ export class MyApp {
         
         let app = window.myApp as MyApp;
 
-        //PREVENT DOUBLE TAP ZOOM ON IOS
-        let delta = (new Date().getTime() - app.lastTouch.getTime());
-        if (delta<500)
-        {
-            event.preventDefault();    
-        }
+        event.preventDefault();    
         app.lastTouch = new Date();
 
         app.touchX_Start = event.touches[0].clientX;
